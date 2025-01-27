@@ -1,16 +1,10 @@
-﻿
-# Author: Tfu na was tweakerzy z pl ^
-# Stworzone przez timecarda, repo i starbleu beda poprawiac ten skrypt
-# tfu tweakerzy ( inaczej psy ) z polski
-# pozdro mendi bedzie w automatyzacji?
-#
-# dobrze, że już mieszkam w niemczech...
-# tak bez żartów to mam nadzieję, że się nie gniewasz repski
-# mega fajny skrypcik, dużo wygodniejsze niż game utility!
-
-#####################
+﻿#####################
 # Variables
 #####################
+
+# Referenced Variable Name: $ProcessesSuspendListNoSteam
+$ProcessesSuspendList = [System.Collections.ArrayList]::new()
+$procsuspendpath = "C:\GameMode\procsuspendlistnosteam.xml"
 
 # Referenced Variable Name: $ProcessesSuspendList
 $ProcessesSuspendList = [System.Collections.ArrayList]::new()
@@ -24,18 +18,12 @@ $svcstoppath = "C:\GameMode\svcstoplist.xml"
 $SvcSuspendList = [System.Collections.ArrayList]::new()
 $svcsuspendpath = "C:\GameMode\svcsuspendlist.xml"
 
-# How To: Example of creating your own list.xml
-# $ProcessesList = [System.Collections.ArrayList]::new()
-# $ProcessesList.Add("steamwebhelper")
-# $ProcessesList.Add("armsvc")
-# $ProcessesList.Add("nvdisplay.container")
-# $ProcessesList | Export-Clixml -Path C:\Users\ddallmann\Desktop\proclist.xml
-
 $global:taskschedpid = ''
 
 #####################
 # External DLL Imports
 #####################
+
 $MethodDefinition = @'
 [DllImport("ntdll.dll", SetLastError=true)]
 public static extern void NtSuspendProcess(IntPtr processHandle);
@@ -214,14 +202,12 @@ function GM-SuspendProcessesNotInList($ProcNameList) {
 	}
 }
 
-#function GM-DisableRealtimeWinDefender() {
-	#Only works with tamper protection off
-	#Set-MpPreference -DisableRealtimeMonitoring $true
-	#Write-Host Disabling Windows Defender Realtime Protection
-#}
+function GM-DisableRealtimeWinDefender() {
+	Set-MpPreference -DisableRealtimeMonitoring $true
+	Write-Host Disabling Windows Defender Realtime Protection
+}
 
 function GM-EnableRealtimeWinDefender() {
-	#Only works with tamper protection off
 	Set-MpPreference -DisableRealtimeMonitoring $false
 	Write-Host Enabling Windows Defender Realtime Protection
 }
@@ -345,10 +331,56 @@ function GM-GameMode-Off() {
 	#GM-RestoreWin32PrioritySeparationProgramDefault
 }
 
+function GM-GameModeNoSteam-On() {
+	#GM-SetTimerResolution(5000)
+	GM-KillExplorer
+	GM-DisableIdle
+	#GM-DisableRealtimeWinDefender
+	GM-SuspendProcessesInList($ProcessesSuspendListNoSteam)
+	GM-StopServicesInList($SvcStopList)
+	GM-SuspendServicesInList($SvcSuspendList)
+	#GM-SetWin32PrioritySeparation(2)
+	GM-TrimWorkingSetAll
+}
+
+function GM-GameModeNoSteam-Off() {
+	#GM-ReleaseTimerResolution
+	GM-ReviveExplorer
+	GM-EnableIdle
+	#GM-EnableRealtimeWinDefender
+	GM-ResumeProcessesInList($ProcessesSuspendListNoSteam)
+	GM-StartServicesInList($SvcStopList)
+	GM-ResumeServicesInList($SvcSuspendList)
+	#GM-RestoreWin32PrioritySeparationProgramDefault
+}
+
+function GM-GameModeNoSteamIdle-On() {
+	#GM-SetTimerResolution(5000)
+	GM-KillExplorer
+	#GM-DisableIdle
+	#GM-DisableRealtimeWinDefender
+	GM-SuspendProcessesInList($ProcessesSuspendListNoSteam)
+	GM-StopServicesInList($SvcStopList)
+	GM-SuspendServicesInList($SvcSuspendList)
+	#GM-SetWin32PrioritySeparation(2)
+	GM-TrimWorkingSetAll
+}
+
+function GM-GameModeNoSteamIdle-Off() {
+	#GM-ReleaseTimerResolution
+	GM-ReviveExplorer
+	#GM-EnableIdle
+	#GM-EnableRealtimeWinDefender
+	GM-ResumeProcessesInList($ProcessesSuspendListNoSteam)
+	GM-StartServicesInList($SvcStopList)
+	GM-ResumeServicesInList($SvcSuspendList)
+	#GM-RestoreWin32PrioritySeparationProgramDefault
+}
 
 #####################
 # Imported Lists
 #####################
+$ProcessesSuspendListNoSteam = GM-ImportExternalList($procsuspendnosteampath)
 $ProcessesSuspendList = GM-ImportExternalList($procsuspendpath)
 $SvcStopList = GM-ImportExternalList($svcstoppath)
 $SvcSuspendList = GM-ImportExternalList($svcsuspendpath)

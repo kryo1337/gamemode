@@ -4,7 +4,7 @@ cls
 color D
 echo [1] GameMode
 echo [2] GameModeNoSteam
-echo [3] GameModeNoIdle
+echo [3] GameModeNoSteamIdle
 echo [4] Run Programs
 echo [5] Explorer
 echo [0] Exit
@@ -50,18 +50,18 @@ IF '%choice%'=='2' GOTO gamenosteamoff
 IF '%choice%'=='0' GOTO return
 IF '%choice%'=='' GOTO gamenosteam
 
-:gamenoidle
+:gamenosteamidle
 cls
 color D
-echo [1] GameModeNoIdle On
-echo [2] GameModeNoIdle Off
+echo [1] GameModeNoSteamIdle On
+echo [2] GameModeNoSteamIdle Off
 echo [0] Back to Main Menu
 
 SET choice=
 SET /p choice=What do you want to do? (pick a number): 
 IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='1' GOTO gamenoidleon
-IF '%choice%'=='2' GOTO gamenoidleoff
+IF '%choice%'=='1' GOTO gamenosteamidleon
+IF '%choice%'=='2' GOTO gamenosteamidleoff
 IF '%choice%'=='0' GOTO return
 IF '%choice%'=='' GOTO gamenoidle
 
@@ -70,23 +70,23 @@ Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeon.ps1
 GOTO return 
 
 :gameoff
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\Gamemodeoff.ps1
+Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeoff.ps1
 GOTO return
 
 :gamenosteamon
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameModenoSteam\GameModeon.ps1
+Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeNoSteamon.ps1
 GOTO return 
 
 :gamenosteamoff
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameModenoSteam\Gamemodeoff.ps1
+Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeNoSteamoff.ps1
 GOTO return
 
-:gamenoidleon
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameModeNoIdle\GameModeon.ps1
+:gamenosteamidleon
+Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeNoSteamIdleon.ps1
 GOTO return 
 
-:gamenoidleoff
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameModeNoIdle\Gamemodeoff.ps1
+:gamenosteamidleoff
+Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeNoSteamIdleoff.ps1
 GOTO return
 
 :explorer
@@ -96,29 +96,29 @@ GOTO return
 :runprograms
 cls
 color D
-echo [1] Run chrome
+echo [1] Run firefox
 echo [2] Run spotify
-echo [3] Run valorant
-echo [4] Run teamspeak
-echo [5] Run discord
-echo [6] Run kovaak
-echo [7] Run replay obs
-echo [8] Run endgame
-echo [9] Run obsidian
+echo [3] Run teamspeak
+echo [4] Run discord
+echo [5] Run obs
+echo [6] Run obsidian
+echo [7] Run hitscan
+echo [8] Run kovaak
+echo [9] Run cmd
 echo [0] Back to Main Menu
 
 SET choice=
 SET /p choice=Select a program to run (pick a number): 
 IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='1' GOTO chrome
+IF '%choice%'=='1' GOTO firefox
 IF '%choice%'=='2' GOTO spotify
-IF '%choice%'=='3' GOTO valorant
-IF '%choice%'=='4' GOTO teamspeak
-IF '%choice%'=='5' GOTO discord
-IF '%choice%'=='6' GOTO kovaak
-IF '%choice%'=='7' GOTO replay
-IF '%choice%'=='8' GOTO endgame
-IF '%choice%'=='9' GOTO obsidian
+IF '%choice%'=='3' GOTO teamspeak
+IF '%choice%'=='4' GOTO discord
+IF '%choice%'=='5' GOTO obs
+IF '%choice%'=='6' GOTO obsidian
+IF '%choice%'=='7' GOTO hitscan
+IF '%choice%'=='8' GOTO kovaak
+IF '%choice%'=='9' GOTO cmd
 IF '%choice%'=='0' GOTO return
 IF '%choice%'=='' GOTO runprograms
 
@@ -126,20 +126,20 @@ IF '%choice%'=='' GOTO runprograms
 start "" "C:\Users\Administrator\Documents\Apps\kovaak.url"
 GOTO return
 
-:chrome
-start "" "C:\Users\Administrator\Documents\Apps\chrome.lnk"
+:firefox
+start "" "C:\Users\Administrator\Documents\Apps\firefox.lnk"
 GOTO return
 
 :spotify
 start "" "C:\Users\Administrator\Documents\Apps\spotify.lnk"
 GOTO return
 
-:replay
-start "" "C:\Users\Administrator\Documents\Apps\replay.lnk"
+:obs
+start "" "C:\Users\Administrator\Documents\Apps\obs.lnk"
 GOTO return
 
-:endgame
-start "" "C:\Users\Administrator\Documents\Apps\endgame.lnk"
+:hitscan
+start "" "C:\Users\Administrator\Documents\Apps\hitscan.lnk"
 GOTO return
 
 :teamspeak
@@ -150,8 +150,8 @@ GOTO return
 start "" "C:\Users\Administrator\Documents\Apps\discord.lnk"
 GOTO return
 
-:valorant
-start "" "C:\Users\Administrator\Documents\Apps\valorant.lnk"
+:cmd
+start "" "C:\Users\Administrator\Documents\Apps\cmmd.lnk"
 GOTO return
 
 :obsidian
