@@ -1,5 +1,5 @@
 @echo off
-:return
+:mainmenu
 cls
 color D
 echo [1] GameMode
@@ -9,16 +9,14 @@ echo [4] Run Programs
 echo [5] Explorer
 echo [0] Exit
 
-SET choice=
-SET /p choice=What do you want to do? (pick a number): 
-IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='1' GOTO game
-IF '%choice%'=='2' GOTO gamenosteam
-IF '%choice%'=='3' GOTO gamenoidle
-IF '%choice%'=='4' GOTO runprograms
-IF '%choice%'=='5' GOTO explorer
-IF '%choice%'=='0' GOTO exit
-IF '%choice%'=='' GOTO return
+choice /C 123450 /N /M "What do you want to do? (pick a number): "
+
+if errorlevel 6 goto exit
+if errorlevel 5 goto explorer
+if errorlevel 4 goto runprograms
+if errorlevel 3 goto gamenoidle
+if errorlevel 2 goto gamenosteam
+if errorlevel 1 goto game
 
 :game
 cls
@@ -27,13 +25,10 @@ echo [1] GameMode On
 echo [2] GameMode Off
 echo [0] Back to Main Menu
 
-SET choice=
-SET /p choice=What do you want to do? (pick a number): 
-IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='1' GOTO gameon
-IF '%choice%'=='2' GOTO gameoff
-IF '%choice%'=='0' GOTO return
-IF '%choice%'=='' GOTO game
+choice /C 120 /N /M "What do you want to do? (pick a number): "
+if errorlevel 3 goto mainmenu
+if errorlevel 2 goto gameoff
+if errorlevel 1 goto gameon
 
 :gamenosteam
 cls
@@ -42,56 +37,22 @@ echo [1] GameModeNoSteam On
 echo [2] GameModeNoSteam Off
 echo [0] Back to Main Menu
 
-SET choice=
-SET /p choice=What do you want to do? (pick a number): 
-IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='1' GOTO gamenosteamon
-IF '%choice%'=='2' GOTO gamenosteamoff
-IF '%choice%'=='0' GOTO return
-IF '%choice%'=='' GOTO gamenosteam
+choice /C 120 /N /M "What do you want to do? (pick a number): "
+if errorlevel 3 goto mainmenu
+if errorlevel 2 goto gamenosteamoff
+if errorlevel 1 goto gamenosteamon
 
-:gamenosteamidle
+:gamenoidle
 cls
 color D
 echo [1] GameModeNoSteamIdle On
 echo [2] GameModeNoSteamIdle Off
 echo [0] Back to Main Menu
 
-SET choice=
-SET /p choice=What do you want to do? (pick a number): 
-IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='1' GOTO gamenosteamidleon
-IF '%choice%'=='2' GOTO gamenosteamidleoff
-IF '%choice%'=='0' GOTO return
-IF '%choice%'=='' GOTO gamenoidle
-
-:gameon
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeon.ps1
-GOTO return 
-
-:gameoff
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeoff.ps1
-GOTO return
-
-:gamenosteamon
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeNoSteamon.ps1
-GOTO return 
-
-:gamenosteamoff
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeNoSteamoff.ps1
-GOTO return
-
-:gamenosteamidleon
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeNoSteamIdleon.ps1
-GOTO return 
-
-:gamenosteamidleoff
-Powershell.exe -executionpolicy Unrestricted -File  C:\GameMode\GameModeNoSteamIdleoff.ps1
-GOTO return
-
-:explorer
-explorer "C:\Users\Administrator\Documents\Apps"
-GOTO return
+choice /C 120 /N /M "What do you want to do? (pick a number): "
+if errorlevel 3 goto mainmenu
+if errorlevel 2 goto gamenosteamidleoff
+if errorlevel 1 goto gamenosteamidleon
 
 :runprograms
 cls
@@ -107,56 +68,81 @@ echo [8] Run kovaak
 echo [9] Run cmd
 echo [0] Back to Main Menu
 
-SET choice=
-SET /p choice=Select a program to run (pick a number): 
-IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='1' GOTO firefox
-IF '%choice%'=='2' GOTO spotify
-IF '%choice%'=='3' GOTO teamspeak
-IF '%choice%'=='4' GOTO discord
-IF '%choice%'=='5' GOTO obs
-IF '%choice%'=='6' GOTO obsidian
-IF '%choice%'=='7' GOTO hitscan
-IF '%choice%'=='8' GOTO kovaak
-IF '%choice%'=='9' GOTO cmd
-IF '%choice%'=='0' GOTO return
-IF '%choice%'=='' GOTO runprograms
+choice /C 1234567890 /N /M "Select a program to run (pick a number): "
+if errorlevel 10 goto mainmenu
+if errorlevel 9 goto cmd
+if errorlevel 8 goto kovaak
+if errorlevel 7 goto hitscan
+if errorlevel 6 goto obsidian
+if errorlevel 5 goto obs
+if errorlevel 4 goto discord
+if errorlevel 3 goto teamspeak
+if errorlevel 2 goto spotify
+if errorlevel 1 goto firefox
+
+:gameon
+Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeon.ps1"
+goto mainmenu
+
+:gameoff
+Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeoff.ps1"
+goto mainmenu
+
+:gamenosteamon
+Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeNoSteamon.ps1"
+goto mainmenu
+
+:gamenosteamoff
+Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeNoSteamoff.ps1"
+goto mainmenu
+
+:gamenosteamidleon
+Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeNoSteamIdleon.ps1"
+goto mainmenu
+
+:gamenosteamidleoff
+Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeNoSteamIdleoff.ps1"
+goto mainmenu
+
+:explorer
+explorer "C:\Users\Administrator\Documents\Apps"
+goto mainmenu
 
 :kovaak
 start "" "C:\Users\Administrator\Documents\Apps\kovaak.url"
-GOTO return
+goto mainmenu
 
 :firefox
 start "" "C:\Users\Administrator\Documents\Apps\firefox.lnk"
-GOTO return
+goto mainmenu
 
 :spotify
 start "" "C:\Users\Administrator\Documents\Apps\spotify.lnk"
-GOTO return
+goto mainmenu
 
 :obs
 start "" "C:\Users\Administrator\Documents\Apps\obs.lnk"
-GOTO return
+goto mainmenu
 
 :hitscan
 start "" "C:\Users\Administrator\Documents\Apps\hitscan.lnk"
-GOTO return
+goto mainmenu
 
 :teamspeak
 start "" "C:\Users\Administrator\Documents\Apps\teamspeak.lnk"
-GOTO return
+goto mainmenu
 
 :discord
 start "" "C:\Users\Administrator\Documents\Apps\discord.lnk"
-GOTO return
+goto mainmenu
 
 :cmd
-start "" "C:\Users\Administrator\Documents\Apps\cmmd.lnk"
-GOTO return
+start "" "C:\Users\Administrator\Documents\Apps\cmd.lnk"
+goto mainmenu
 
 :obsidian
 start "" "C:\Users\Administrator\Documents\Apps\obsidian.lnk"
-GOTO return
+goto mainmenu
 
 :exit
 exit
