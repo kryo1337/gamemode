@@ -70,79 +70,50 @@ echo [0] Back to Main Menu
 
 choice /C 1234567890 /N /M "Select a program to run (pick a number): "
 if errorlevel 10 goto mainmenu
-if errorlevel 9 goto cmd
-if errorlevel 8 goto kovaak
-if errorlevel 7 goto hitscan
-if errorlevel 6 goto obsidian
-if errorlevel 5 goto obs
-if errorlevel 4 goto discord
-if errorlevel 3 goto teamspeak
-if errorlevel 2 goto spotify
-if errorlevel 1 goto firefox
+call :launchprogram %ERRORLEVEL%
+goto mainmenu
+
+:launchprogram
+set "basepath=C:\gamemode\Apps\"
+if "%1"=="1" start "" "%basepath%firefox.lnk"
+if "%1"=="2" start "" "%basepath%spotify.lnk"
+if "%1"=="3" start "" "%basepath%teamspeak.lnk"
+if "%1"=="4" start "" "%basepath%discord.lnk"
+if "%1"=="5" start "" "%basepath%obs.lnk"
+if "%1"=="6" start "" "%basepath%obsidian.lnk"
+if "%1"=="7" start "" "%basepath%hitscan.lnk"
+if "%1"=="8" start "" "%basepath%kovaak.url"
+if "%1"=="9" start "" "%basepath%cmd.lnk"
+exit /b
+
+:runpowermode
+set "mode=%1"
+Powershell.exe -executionpolicy Unrestricted -File "C:\gamemode\GameMode\RunGameMode.ps1" -Mode "%mode%"
+goto mainmenu
 
 :gameon
-Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeon.ps1"
-goto mainmenu
+call :runpowermode "GameMode-On"
+goto :eof
 
 :gameoff
-Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeoff.ps1"
-goto mainmenu
+call :runpowermode "GameMode-Off"
+goto :eof
 
 :gamenosteamon
-Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeNoSteamon.ps1"
-goto mainmenu
+call :runpowermode "GameModeNoSteam-On"
+goto :eof
 
 :gamenosteamoff
-Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeNoSteamoff.ps1"
-goto mainmenu
+call :runpowermode "GameModeNoSteam-Off"
+goto :eof
 
 :gamenosteamidleon
-Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeNoSteamIdleon.ps1"
-goto mainmenu
+call :runpowermode "GameModeNoSteamIdle-On"
+goto :eof
 
 :gamenosteamidleoff
-Powershell.exe -executionpolicy Unrestricted -File "C:\GameMode\GameModeNoSteamIdleoff.ps1"
-goto mainmenu
-
-:explorer
-explorer "C:\Users\Administrator\Documents\Apps"
-goto mainmenu
-
-:kovaak
-start "" "C:\Users\Administrator\Documents\Apps\kovaak.url"
-goto mainmenu
-
-:firefox
-start "" "C:\Users\Administrator\Documents\Apps\firefox.lnk"
-goto mainmenu
-
-:spotify
-start "" "C:\Users\Administrator\Documents\Apps\spotify.lnk"
-goto mainmenu
-
-:obs
-start "" "C:\Users\Administrator\Documents\Apps\obs.lnk"
-goto mainmenu
-
-:hitscan
-start "" "C:\Users\Administrator\Documents\Apps\hitscan.lnk"
-goto mainmenu
-
-:teamspeak
-start "" "C:\Users\Administrator\Documents\Apps\teamspeak.lnk"
-goto mainmenu
-
-:discord
-start "" "C:\Users\Administrator\Documents\Apps\discord.lnk"
-goto mainmenu
-
-:cmd
-start "" "C:\Users\Administrator\Documents\Apps\cmd.lnk"
-goto mainmenu
-
-:obsidian
-start "" "C:\Users\Administrator\Documents\Apps\obsidian.lnk"
-goto mainmenu
+call :runpowermode "GameModeNoSteamIdle-Off"
+goto :eof
 
 :exit
 exit

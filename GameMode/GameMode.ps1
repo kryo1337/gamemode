@@ -4,19 +4,19 @@
 
 # Referenced Variable Name: $ProcessesSuspendListNoSteam
 $ProcessesSuspendList = [System.Collections.ArrayList]::new()
-$procsuspendpath = "C:\GameMode\procsuspendlistnosteam.xml"
+$procsuspendpath = "C:\gamemode\GameMode\procsuspendlistnosteam.xml"
 
 # Referenced Variable Name: $ProcessesSuspendList
 $ProcessesSuspendList = [System.Collections.ArrayList]::new()
-$procsuspendpath = "C:\GameMode\procsuspendlist.xml"
+$procsuspendpath = "C:\gamemode\GameMode\procsuspendlist.xml"
 
 # Referenced Variable Name: $SvcStopList
 $SvcStopList = [System.Collections.ArrayList]::new()
-$svcstoppath = "C:\GameMode\svcstoplist.xml"
+$svcstoppath = "C:\gamemode\GameMode\svcstoplist.xml"
 
 # Referenced Variable Name: $SvcSuspendList
 $SvcSuspendList = [System.Collections.ArrayList]::new()
-$svcsuspendpath = "C:\GameMode\svcsuspendlist.xml"
+$svcsuspendpath = "C:\gamemode\GameMode\svcsuspendlist.xml"
 
 $global:taskschedpid = ''
 
